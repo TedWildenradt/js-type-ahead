@@ -26,9 +26,27 @@ const prom = fetch(endpoint)
 function findMatches(wordToMatch, cities){
   return cities.filter( city => {
     const regex =  new RegExp(wordToMatch, 'gi');
-    return city.city.match(regex) || city.state.match(regex);
+    return city.city.match(regex) || city.state.match(regex); 
   })
 }
+
+function displayMatches(){
+  const matchArray = findMatches(this.value, cities);
+  const html = matchArray.map( place => {
+    return `
+      <li>
+        <span class="name">${place.city}, ${place.state}</span>
+        <span class="population">${place.population}</span>
+      </li>
+    `;
+  })
+  suggestions.innerHTML = html;
+}
+
+const searchInput = document.querySelector('.search');
+const suggestions = document.querySelector('.suggestions');
+
+searchInput.addEventListener('keyup', displayMatches)
 
 </script>
 </body>
